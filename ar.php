@@ -6,5 +6,5 @@ $food = array(
 
 $fruitCount = array_count_values($food["fruits"]);
 
-print_r($fruitCount);
+print_r($fruitCount); 
 ?>
