@@ -15,7 +15,6 @@
         <br>
         <input type="submit" name ="save" id="button">
     </form>
-
     <?php
     if(isset($_POST["save"]))
     {
