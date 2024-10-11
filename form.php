@@ -1,27 +1,33 @@
+<?php
+    $errname="";
+    if (isset($_POST["save"])) {
+        if(empty($_POST['name'])){
+            $errname="Name is required";
+
+        }
+        else{
+            echo "The name is ",$_POST['name'];
+        }
+    }
+
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form 2</title>
+    <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <label for="ph">Phone Number</label>
-        <input type="number" id="ph" name="ph">
-        <br>
-        <label for="address">Address</label>
-        <input type="text" id="address" name="address">
-        <br>
-        <input type="hidden" name="name" value="<?php echo $_POST['name']; ?>">
-        <input type="hidden" name="email" value="<?php echo $_POST['email']; ?>">
-        <input type="submit" name="save" id="button" value="Submit">
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name">
+        <span style="color:red">*<?php echo $errname; ?></span><br>
+        <label for="pw">Password</label>
+        <input type="password" name="password" id="pw"><br>
+        <input type="submit" name="save">
     </form>
+
     
-    <?php
-    if (isset($_POST["save"])) {
-        echo "Welcome " . $_POST["name"] . ", your email is " . $_POST["email"] . ", your phone number is " . $_POST["ph"] . ", and your address is " . $_POST["address"];
-    }
-    ?>
 </body>
 </html>
