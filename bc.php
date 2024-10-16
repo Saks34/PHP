@@ -3,55 +3,54 @@ $name = $email = $website = $age = $comment = $gender = "";
 $nameErr = $emailErr = $ageErr = $genderErr = $commentErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["name"])) {
+    // Sanitize and validate name
+    $name = test_input($_POST["name"]);
+    if (empty($name)) {
         $nameErr = "Name is required";
-    } else {
-        $name = test_input($_POST["name"]);
     }
 
-    if (empty($_POST["email"])) {
+    // Sanitize and validate email
+    $email = test_input($_POST["email"]);
+    if (empty($email)) {
         $emailErr = "Email is required";
-    } else {
-        $email = test_input($_POST["email"]);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid email format";
-        }
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "Invalid email format";
     }
 
-    if (empty($_POST["age"])) {
+    // Sanitize and validate age
+    $age = test_input($_POST["age"]);
+    if (empty($age)) {
         $ageErr = "Age is required";
-    } elseif (!is_numeric($_POST["age"]) || $_POST["age"] < 1 || $_POST["age"] > 200) {
+    } elseif (!is_numeric($age) || $age < 1 || $age > 200) {
         $ageErr = "Age must be between 1 and 200";
-    } else {
-        $age = test_input($_POST["age"]);
     }
 
-    if (empty($_POST["gender"])) {
+    // Sanitize and validate gender
+    $gender = test_input($_POST["gender"]);
+    if (empty($gender)) {
         $genderErr = "Gender is required";
-    } else {
-        $gender = test_input($_POST["gender"]);
     }
 
-    if (!empty($_POST["comment"])) {
-        $comment = test_input($_POST["comment"]);
+    // Sanitize and check comment word count
+    $comment = test_input($_POST["comment"]);
+    if (!empty($comment)) {
         $commentWordCount = str_word_count($comment);
         if ($commentWordCount > 150) {
             $commentErr = "Comment must not exceed 150 words (you entered $commentWordCount words)";
         }
     }
 
-    if (!empty($_POST["website"])) {
-        $website = test_input($_POST["website"]);
-        if (!filter_var($website, FILTER_VALIDATE_URL)) {
-            $website = "";
-        }
+    // Sanitize and validate website (optional)
+    $website = test_input($_POST["website"]);
+    if (!empty($website) && !filter_var($website, FILTER_VALIDATE_URL)) {
+        $website = ""; // Clear website if it's not a valid URL
     }
 }
 
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8'); // Handle quotes and special chars
     return $data;
 }
 ?>
