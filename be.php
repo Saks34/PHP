@@ -2,11 +2,10 @@
 $errors = [];
 $success = "";
 
-// Function to sanitize inputs
 function sanitize_input($data) {
-    $data = trim($data);  // Remove unnecessary spaces
-    $data = stripslashes($data);  // Remove slashes
-    $data = htmlspecialchars($data);  // Convert special characters to HTML entities
+    $data = trim($data);  
+    $data = stripslashes($data); 
+    $data = htmlspecialchars($data); 
     return $data;
 }
 
